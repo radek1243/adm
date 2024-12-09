@@ -1,0 +1,1 @@
+alias checkaduser='python3 ~/adm/check_aduser.py'
