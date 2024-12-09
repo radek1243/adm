@@ -39,11 +39,12 @@ def check_aduser(upn, username, ps, domain: str):
                         c.search(
                                 search_base,
                                 search_filter="(userPrincipalName="+upn+")",
-                                attributes=['*']
+                                attributes=['*','uidNumber','gidNumber']
                         )
                         result = c.response[0]
                         if result:
-                                print(result)
+                                for key, value in result['attributes'].items():
+                                       print(key+": "+value.__str__())
                         else:
                                 print("Blad przy pobieraniu użytkownika "+result)
                         c.unbind()
