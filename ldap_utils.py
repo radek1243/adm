@@ -7,3 +7,10 @@ def find_dcs(domain: str) -> list[str]:
                 adc: list[str] = a.to_text().split(" ")
                 l.append(adc[adc.__len__()-1].removesuffix("."))
         return l
+
+def print_attributes(result):
+        if result:
+                for key, value in result['attributes'].items():
+                        print(key+": "+value.__str__())
+        else:
+                print("Error when trying to obtain user info! "+result)

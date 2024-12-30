@@ -25,12 +25,8 @@ def check_adgroup(cn, username, ps, domain: str):
                                 attributes=['*','gidNumber']
                         )
                         result = c.response[0]
-                        if result:
-                                for key, value in result['attributes'].items():
-                                       print(key+": "+value.__str__())
-                        else:
-                                print("Error when trying to get group info "+result)
                         c.unbind()
+                        return result
                         break
 
 parser = argparse.ArgumentParser()
@@ -39,5 +35,5 @@ parser.add_argument("-cn", "--canonicalname",required=True)
 parser.add_argument("-d","--domain",required=True)
 args = parser.parse_args()
 ps = getpass.getpass("Entry password for your LDAP login: ")
-check_adgroup(args.canonicalname, args.user, ps, args.domain)
+ldap_utils.print_attributes(check_adgroup(args.canonicalname, args.user, ps, args.domain))
 
