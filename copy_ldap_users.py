@@ -8,6 +8,7 @@ from check_adgroup import check_adgroup
 
 def copy_adusers(src_group, dest_group, username, ps, domain: str):
         src_group_info = check_adgroup(src_group, username, ps, domain)
+        dest_group_info = check_adgroup(dest_group, username, ps, domain)
         dcs = ldap_utils.find_dcs(domain)
         for dc in dcs:
                 tls = Tls(validate=ssl.CERT_NONE, version=ssl.PROTOCOL_TLSv1_2)
@@ -24,13 +25,13 @@ def copy_adusers(src_group, dest_group, username, ps, domain: str):
                     for member in src_group_info['member']:
                             mod_list.append((ldap3.MODIFY_INCREMENT,[member]))
                     result = c.modify(
-                                src_group_info['distinguishedName'],
+                                dest_group_info['distinguishedName'],
                                 {'member': mod_list}
                         )
                     if result:
                                 print('***Users were copied***')
                     else:
-                                print('***Error when copying users!***')
+                                print('***Error when copying users!***\n'+result)
                     c.unbind()
 
 
