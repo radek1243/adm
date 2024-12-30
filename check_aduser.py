@@ -27,7 +27,6 @@ def check_aduser(upn, username, ps, domain: str):
                         result = c.response[0]
                         c.unbind()
                         return result
-                        break
 
 parser = argparse.ArgumentParser()
 parser.add_argument("-u","--user",required=True)
