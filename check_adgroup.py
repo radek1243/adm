@@ -1,12 +1,12 @@
 #!/usr/bin/python3
-#Script to check users via LDAP
+#Script to check groups via LDAP
 from ldap3 import Server, Connection, Tls
 import ssl
 import getpass
 import argparse
 import ldap_utils
 
-def check_aduser(upn, username, ps, domain: str):
+def check_adgroup(cn, username, ps, domain: str):
         icdcs = ldap_utils.find_dcs(domain)
         for dc in icdcs:
                 tls = Tls(validate=ssl.CERT_NONE, version=ssl.PROTOCOL_TLSv1_2)
@@ -21,23 +21,23 @@ def check_aduser(upn, username, ps, domain: str):
                 if c.bind():
                         c.search(
                                 search_base,
-                                search_filter="(userPrincipalName="+upn+")",
-                                attributes=['*','uidNumber','gidNumber']
+                                search_filter="(CN="+cn+")",
+                                attributes=['*','gidNumber']
                         )
                         result = c.response[0]
                         if result:
                                 for key, value in result['attributes'].items():
                                        print(key+": "+value.__str__())
                         else:
-                                print("Error when trying to obtain user info! "+result)
+                                print("Error when trying to get group info "+result)
                         c.unbind()
                         break
 
 parser = argparse.ArgumentParser()
 parser.add_argument("-u","--user",required=True)
-parser.add_argument("--upn",required=True)
+parser.add_argument("-cn", "--canonicalname",required=True)
 parser.add_argument("-d","--domain",required=True)
 args = parser.parse_args()
-ps = getpass.getpass("Entry password for your LDAP login: ")
-check_aduser(args.upn, args.user, ps, args.domain)
+ps = getpass.getpass("Podaj haslo do Twojego loginu LDAP: ")
+check_adgroup(args.canonicalname, args.user, ps, args.domain)
 
