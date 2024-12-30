@@ -1,1 +1,2 @@
 alias checkaduser='python3 ~/adm/check_aduser.py'
+alias checkadgroup='python3 ~/adm/check_adgroup.py'
