@@ -31,7 +31,8 @@ def copy_adusers(src_group, dest_group, username, ps, domain: str):
                     if result:
                                 print('***Users were copied***')
                     else:
-                                print('***Error when copying users!*** '+c.result)
+                                print('***Error when copying users!*** ')
+                                print(c.result)
                     c.unbind()
 
 def main():
