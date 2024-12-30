@@ -22,10 +22,10 @@ def copy_adusers(src_group, dest_group, username, ps, domain: str):
                 server, user=username, password=ps, authentication="SIMPLE")
                 if c.bind():
                     mod_list=list()
-                    for member in src_group_info[0]['attributes']['member']:
+                    for member in src_group_info['attributes']['member']:
                             mod_list.append((ldap3.MODIFY_INCREMENT,[member]))
                     result = c.modify(
-                                dest_group_info[0]['dn'],
+                                dest_group_info['dn'],
                                 {'member': mod_list}
                         )
                     if result:
