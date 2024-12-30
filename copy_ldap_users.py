@@ -22,10 +22,10 @@ def copy_adusers(src_group, dest_group, username, ps, domain: str):
                 server, user=username, password=ps, authentication="SIMPLE")
                 if c.bind():
                     mod_list=list()
-                    for member in src_group_info['member']:
+                    for member in src_group_info[0]['attributes']['member']:
                             mod_list.append((ldap3.MODIFY_INCREMENT,[member]))
                     result = c.modify(
-                                dest_group_info['distinguishedName'],
+                                dest_group_info[0]['dn'],
                                 {'member': mod_list}
                         )
                     if result:
@@ -34,12 +34,15 @@ def copy_adusers(src_group, dest_group, username, ps, domain: str):
                                 print('***Error when copying users!***\n'+result)
                     c.unbind()
 
+def main():
+    parser = argparse.ArgumentParser()
+    parser.add_argument("-u","--user",required=True)
+    parser.add_argument("-s","--source",required=True)
+    parser.add_argument("-dst","--dest",required=True)
+    parser.add_argument("-d","--domain",required=True)
+    args = parser.parse_args()
+    ps = getpass.getpass("Entry password for your LDAP login: ")
+    copy_adusers(args.source, args.dest, args.user, ps, args.domain)
 
-parser = argparse.ArgumentParser()
-parser.add_argument("-u","--user",required=True)
-parser.add_argument("-s","--source",required=True)
-parser.add_argument("-dst","--dest",required=True)
-parser.add_argument("-d","--domain",required=True)
-args = parser.parse_args()
-ps = getpass.getpass("Entry password for your LDAP login: ")
-copy_adusers(args.source, args.dest, args.user, ps, args.domain)
+if __name__ == 'main':
+        main()

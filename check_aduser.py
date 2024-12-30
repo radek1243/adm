@@ -27,12 +27,15 @@ def check_aduser(upn, username, ps, domain: str):
                         result = c.response[0]
                         c.unbind()
                         return result
+def main():
+        parser = argparse.ArgumentParser()
+        parser.add_argument("-u","--user",required=True)
+        parser.add_argument("--upn",required=True)
+        parser.add_argument("-d","--domain",required=True)
+        args = parser.parse_args()
+        ps = getpass.getpass("Entry password for your LDAP login: ")
+        ldap_utils.print_attributes(check_aduser(args.upn, args.user, ps, args.domain))
 
-parser = argparse.ArgumentParser()
-parser.add_argument("-u","--user",required=True)
-parser.add_argument("--upn",required=True)
-parser.add_argument("-d","--domain",required=True)
-args = parser.parse_args()
-ps = getpass.getpass("Entry password for your LDAP login: ")
-ldap_utils.print_attributes(check_aduser(args.upn, args.user, ps, args.domain))
+if __name__ == 'main':
+        main()
 
