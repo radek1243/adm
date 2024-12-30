@@ -38,6 +38,6 @@ parser.add_argument("-u","--user",required=True)
 parser.add_argument("-cn", "--canonicalname",required=True)
 parser.add_argument("-d","--domain",required=True)
 args = parser.parse_args()
-ps = getpass.getpass("Podaj haslo do Twojego loginu LDAP: ")
+ps = getpass.getpass("Entry password for your LDAP login: ")
 check_adgroup(args.canonicalname, args.user, ps, args.domain)
 
