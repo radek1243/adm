@@ -28,7 +28,7 @@ def make_users_yaml(src_group, username, ps, domain: str) -> str:
                             attributes=['*','uidNumber','gidNumber']        
                         )
                         user = c.response[0]['attributes']
-                        yaml_text+="  - { login: "+user['userPrincipalName']+", uid: "+user['uidNumber']+" }\n"
+                        yaml_text+="  - { login: "+user['userPrincipalName']+", uid: "+str(user['uidNumber'])+" }\n"
                     c.unbind()
                     return yaml_text
 
