@@ -26,7 +26,7 @@ def copy_adusers(src_group, dest_group, username, ps, domain: str):
                             mod_list.append(member)
                     result = c.modify(
                                 dest_group_info['dn'],
-                                {'member': [(ldap3.MODIFY_INCREMENT, mod_list)]}
+                                {'member': [(ldap3.MODIFY_ADD, mod_list)]}
                         )
                     if result:
                                 print('***Users were copied***')
