@@ -34,6 +34,7 @@ def copy_adusers(src_group, dest_group, username, ps, domain: str):
                                 print('***Error when copying users!*** ')
                                 print(c.result)
                     c.unbind()
+                    break
 
 def main():
     parser = argparse.ArgumentParser()
