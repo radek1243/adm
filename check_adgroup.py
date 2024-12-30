@@ -36,6 +36,6 @@ def main():
         ps = getpass.getpass("Entry password for your LDAP login: ")
         ldap_utils.print_attributes(check_adgroup(args.canonicalname, args.user, ps, args.domain))
 
-if __name__ == 'main':
+if __name__ == '__main__':
         main()
 

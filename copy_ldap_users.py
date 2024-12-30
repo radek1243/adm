@@ -44,5 +44,5 @@ def main():
     ps = getpass.getpass("Entry password for your LDAP login: ")
     copy_adusers(args.source, args.dest, args.user, ps, args.domain)
 
-if __name__ == 'main':
+if __name__ == '__main__':
         main()
