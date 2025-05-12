@@ -71,28 +71,28 @@ class InventoryModule(BaseInventoryPlugin):
             )
             cur = conn.cursor()
             #pobranie wszystkich hostów
-            cur.execute("select * from host")
+            cur.execute("select * from inv.host")
             for host in cur.fetchall():
                 self.inventory.add_host(host[1])
                 self.inventory.set_variable(host[1],'ansible_host',host[2])
             #pobranie wszystkich zmiennych hostów
-            cur.execute("select host.name, hostvars.name, hostvars.value from host join hostvars on host.id=hostvars.hostid")
+            cur.execute("select host.name, hostvars.name, hostvars.value from inv.host join inv.hostvars on host.id=hostvars.hostid")
             for hostvar in cur.fetchall():
                 self.inventory.set_variable(hostvar[0],hostvar[1],hostvar[2])
             #pobranie wszystkich grup
-            cur.execute('select name from "group"')
+            cur.execute('select name from inv.group')
             for group in cur.fetchall():
                 self.inventory.add_group(group[0])
             #pobranie wszystkich podgrup danych grup
-            cur.execute('select parent.name, "group".name from "group" as parent join "group" on parent.id="group".parent_group_id')
+            cur.execute('select parent.name, "group".name from inv.group as parent join inv.group on parent.id="group".parent_group_id')
             for parent in cur.fetchall():
                 self.inventory.add_child(parent[0],parent[1])
             #pobranie zmiennych grupowych
-            cur.execute('select "group".name, groupvars.name, groupvars.value from "group" join groupvars on "group".id=groupvars.groupid')
+            cur.execute('select "group".name, groupvars.name, groupvars.value from inv.group join inv.groupvars on "group".id=groupvars.groupid')
             for groupvar in cur.fetchall():
                 self.inventory.set_variable(groupvar[0],groupvar[1],groupvar[2])
             #pobranie grup hostów
-            cur.execute('select "group".name, host.name from host join host_group on host.id=host_group.hostid join "group" on "group".id=host_group.groupid')
+            cur.execute('select "group".name, host.name from inv.host join inv.host_group on host.id=host_group.hostid join inv.group on "group".id=host_group.groupid')
             for host_group in cur.fetchall():
                 self.inventory.add_child(host_group[0],host_group[1])
             cur.close()
