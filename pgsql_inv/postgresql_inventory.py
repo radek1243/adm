@@ -78,7 +78,11 @@ class InventoryModule(BaseInventoryPlugin):
             #pobranie wszystkich zmiennych hostów
             cur.execute("select host.name, hostvars.name, hostvars.value from inv.host join inv.hostvars on host.id=hostvars.hostid")
             for hostvar in cur.fetchall():
-                self.inventory.set_variable(hostvar[0],hostvar[1],hostvar[2])
+                islist = hostvar[2].split(",")
+                if len(islist) > 1:
+                    self.inventory.set_variable(hostvar[0],hostvar[1],hostvar[2].split(","))
+                else:
+                    self.inventory.set_variable(hostvar[0],hostvar[1],hostvar[2])
             #pobranie wszystkich grup
             cur.execute('select name from inv.group')
             for group in cur.fetchall():
@@ -90,7 +94,11 @@ class InventoryModule(BaseInventoryPlugin):
             #pobranie zmiennych grupowych
             cur.execute('select "group".name, groupvars.name, groupvars.value from inv.group join inv.groupvars on "group".id=groupvars.groupid')
             for groupvar in cur.fetchall():
-                self.inventory.set_variable(groupvar[0],groupvar[1],groupvar[2])
+                islist = groupvar[2].split(",")
+                if len(islist) > 1:
+                    self.inventory.set_variable(groupvar[0],groupvar[1],groupvar[2].split(','))
+                else:
+                    self.inventory.set_variable(groupvar[0],groupvar[1],groupvar[2])
             #pobranie grup hostów
             cur.execute('select "group".name, host.name from inv.host join inv.host_group on host.id=host_group.hostid join inv.group on "group".id=host_group.groupid')
             for host_group in cur.fetchall():
