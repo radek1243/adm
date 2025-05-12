@@ -32,7 +32,7 @@ create table inv.host_group (
     groupid int references inv.group(id) on delete cascade
 );
 
-create or replace procedure add_hostvar(hostname varchar(20), varname varchar(15), varvalue text)
+create or replace procedure inv.add_hostvar(hostname varchar(20), varname varchar(15), varvalue text)
     as $$
     declare hid int;
     begin
@@ -42,7 +42,7 @@ create or replace procedure add_hostvar(hostname varchar(20), varname varchar(15
     end;
 $$ LANGUAGE plpgsql;
 
-CREATE OR REPLACE PROCEDURE add_host_to_group(hostname varchar(20), groupname varchar(30))
+CREATE OR REPLACE PROCEDURE inv.add_host_to_group(hostname varchar(20), groupname varchar(30))
 	AS $$
 	declare hid int;
 	declare gid int;
@@ -54,7 +54,7 @@ CREATE OR REPLACE PROCEDURE add_host_to_group(hostname varchar(20), groupname va
 	end;
 $$ LANGUAGE plpgsql
 
-CREATE OR REPLACE PROCEDURE add_groupvar(groupname varchar(30), varname varchar(30), varvalue text)
+CREATE OR REPLACE PROCEDURE inv.add_groupvar(groupname varchar(30), varname varchar(30), varvalue text)
 LANGUAGE 'plpgsql'
 AS $BODY$
     declare gid int;
