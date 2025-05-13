@@ -147,7 +147,6 @@ class DBPostgreSQL:
         except Exception as ex:
             print(f"Error during removing host variable!\n{ex}")
 
-
     def remove_group(self, groupname: str):
         try:
             self.__connect__()
@@ -187,5 +186,20 @@ class DBPostgreSQL:
         except Exception as ex:
             print(f"Error during removing host from group!\n{ex}")
 
+    def add_multiple_hosts(self, hosts: list[list[str]]):
+        try:
+            self.__connect__()
+            cur = self.__get_cursor__()
+            for hostname in hosts:
+                cur.execute("insert into inv.host (name,ip) values (%s,%s)",[hostname[0], hostname[1]])
+            self.__commit__()
+            self.__close__()
+            print(f"All hosts added.")
+        except Exception as ex:
+            print(f"Error during inserting hosts!\n{ex}")
+        
 db = DBPostgreSQL()
-db.remove_host_from_group('ansible-vm','grupatest1')
+lhost = list[list[str]]()
+lhost.append(["host2",'10.105.4.4'])
+lhost.append(["host3",'10.105.4.5'])
+db.add_multiple_hosts(lhost)
