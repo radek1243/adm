@@ -1,2 +1,3 @@
 pgsql_inv/__pycache__
 pgsql_inv/pgsql.yaml
+.env.pgsql
