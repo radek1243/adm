@@ -16,7 +16,7 @@ create table inv.hostvars (
 create table inv.group (
     id integer generated always as identity primary key,
     name varchar(30) not null,
-    parent_group_id int references inv.group(id) on delete cascade
+    parent_group_id int references inv.group(id) on delete set null
 );
 
 create table inv.groupvars (
